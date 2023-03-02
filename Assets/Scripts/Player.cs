@@ -1,17 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Player : MonoBehaviour, IShootable
+public class Player : MonoBehaviour
 {
-    [SerializeField] private int _health;
 
-    public void TakeDamage(int count)
-    {
-        _health -= count;
-        if (_health <= 0)
-        {
-            gameObject.SetActive(false);
-        }
-    }
 }

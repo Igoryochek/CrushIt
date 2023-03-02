@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+
 public class Shooter : MonoBehaviour
 {
     [SerializeField] private Weapon _weapon;
     [SerializeField] private float _timeBetweenShoot;
     [SerializeField] private float _shootingDistance;
     [SerializeField] private float _stopShootingDistance;
+    [SerializeField] private Transform _headPoint;
+    [SerializeField] private LayerMask _layerMask;
 
-    private GameObject _hit;
     private Coroutine _shooting;
-    [SerializeField]private bool _isShooting = false;
+    private bool _isShooting = false;
     private Transform _currentTarget;
     private IShootable _shootable;
 
@@ -27,19 +30,21 @@ public class Shooter : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = new Ray(transform.position,transform.TransformDirection(Vector3.forward)*10);
-        RaycastHit hit;
-        if (Physics.Raycast(ray,out hit,_shootingDistance))
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _shootingDistance,_layerMask);
+        foreach (var collider in colliders)
         {
-            if (hit.transform.gameObject.TryGetComponent(out IShootable shootable))
+            if (collider.gameObject.TryGetComponent(out Health health))
             {
-                if (hit.transform.gameObject.activeSelf&& hit.transform.gameObject!=gameObject)
+                if (collider.gameObject != gameObject&& _shooting == null)
                 {
-                    Shoot(hit.transform.gameObject.transform);
-
+                    Shoot(collider.gameObject.transform);
+                    return;
                 }
             }
-        }
+        } 
+        
+
+        
         if (_currentTarget!=null&&_currentTarget.gameObject.activeSelf==false)
         {
             StopShoot();
@@ -52,12 +57,10 @@ public class Shooter : MonoBehaviour
 
     private void Shoot(Transform target)
     {
-        if (_shooting==null)
-        {
             _currentTarget = target;
             _isShooting = true;
-            _shooting = StartCoroutine(Shooting());
-        }
+            _shooting = StartCoroutine(Shooting(target));
+        
     }
 
     private void StopShoot()
@@ -72,13 +75,16 @@ public class Shooter : MonoBehaviour
 
     }
 
-    private IEnumerator Shooting()
+    private IEnumerator Shooting(Transform target)
     {
-        while (true)
+        while (target.gameObject.activeSelf)
         {
             _weapon.Shoot(_currentTarget);
             yield return null;
             yield return new WaitForSeconds(_timeBetweenShoot);            
         }
+        _isShooting = false;
+        _shooting = null;
+        _currentTarget = null;
     }
 }

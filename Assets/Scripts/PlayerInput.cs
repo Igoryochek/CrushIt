@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PLayerMover))]
-
+[RequireComponent(typeof(PlayerMover))]
+[RequireComponent(typeof(AnimatorController))]
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private VariableJoystick _joystick;
 
-    private PLayerMover _mover;
+    private PlayerMover _mover;
+    private AnimatorController _animatorController;
 
     private void Start()
     {
-        _mover = GetComponent<PLayerMover>();
+        _mover = GetComponent<PlayerMover>();
+        _animatorController = GetComponent<AnimatorController>();
     }
 
     private void Update()
@@ -21,7 +23,12 @@ public class PlayerInput : MonoBehaviour
             transform.position.y, transform.position.z + _joystick.Vertical * _mover.MovingSpeed * Time.deltaTime);
         if (_joystick.Horizontal != 0 && _joystick.Vertical != 0)
         {
-            _mover.Move(newDirection);
+            _mover.SetNeedMove(newDirection);
+            _animatorController.Walk();
+        }
+        else
+        {
+            _animatorController.StopWalk();
         }
     }
 }

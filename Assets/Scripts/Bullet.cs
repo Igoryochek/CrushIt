@@ -10,9 +10,9 @@ public abstract class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out IShootable shootable))
+        if (other.TryGetComponent(out Health health))
         {
-            shootable.TakeDamage(_damage);
+            health.TakeDamage(_damage);
         }
     }
 
