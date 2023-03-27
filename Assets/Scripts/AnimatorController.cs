@@ -7,36 +7,82 @@ public class AnimatorController : MonoBehaviour
 {
     private Animator _animator;
 
-    private const string Idle = "IdleShoot";
-    private const string Run = "Run";
+    private const string IdleShoot = "IdleShoot";
+    private const string Idle = "Idle";
+    private const string Running = "Run";
     private const string Fall = "Fall";
+    private const string Up = "Up";
+    private const string Push = "Push";
 
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
 
-    public void Walk()
+    public void Run()
     {
-        if (_animator.GetBool(Run)==false)
+        if (_animator.GetBool(Running)==false)
         {
-            _animator.SetBool(Run,true);
+            if (_animator.GetBool(IdleShoot))
+            {
+                _animator.SetBool(IdleShoot, false);
+            }
+            _animator.SetBool(Running,true);
         }
     }
 
-    public void StopWalk()
+    public void StopRun()
     {
-        if (_animator.GetBool(Run))
+        if (_animator.GetBool(Running))
         {
-            _animator.SetBool(Run,false);
+            _animator.SetBool(Running,false);
+        }
+    }    public void StopShoot()
+    {
+        if (_animator.GetBool(IdleShoot))
+        {
+            _animator.SetBool(IdleShoot,false);
+        }
+    }
+
+    public void StopRunAndShoot()
+    {
+        if (_animator.GetBool(Running))
+        {
+            _animator.SetBool(Running, false);
+            _animator.SetBool(IdleShoot, true);
         }
     }
     
     public void Die()
     {
-        if (_animator.GetBool(Fall)==false)
+        StopRun();
+        StopShoot();
+        _animator.SetTrigger(Fall);
+        
+    }
+    
+    public void StandUp()
+    {
+        if (_animator.GetBool(Up)==false)
         {
-            _animator.SetBool(Fall,true);
+            _animator.SetBool(Up,true);
         }
+    }
+    
+    public void StopStandUp()
+    {
+        if (_animator.GetBool(Up))
+        {
+            _animator.SetBool(Up,false);
+        }
+    }
+    public void PushButton()
+    {
+        if (_animator.GetBool(Running))
+        {
+            _animator.SetBool(Running,false);
+        }
+        _animator.SetTrigger(Push);
     }
 }

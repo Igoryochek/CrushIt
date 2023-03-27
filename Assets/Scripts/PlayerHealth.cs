@@ -6,6 +6,7 @@ public class PlayerHealth : Health
 {
     public override void Die()
     {
+        _animatorController.Die();
 
     }
 }

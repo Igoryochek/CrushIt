@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Health))]
 
 public class Shooter : MonoBehaviour
 {
@@ -16,16 +16,16 @@ public class Shooter : MonoBehaviour
 
     private Coroutine _shooting;
     private bool _isShooting = false;
-    private Transform _currentTarget;
-    private IShootable _shootable;
+    private Health _currentTarget;
+    private Health _selfHealth;
 
-    public Transform Target => _currentTarget;
+    public Health Target => _currentTarget;
 
     public bool IsShooting => _isShooting;
 
     private void Start()
     {
-        _shootable = GetComponent<IShootable>();
+        _selfHealth = GetComponent<Health>();
     }
 
     private void Update()
@@ -35,31 +35,20 @@ public class Shooter : MonoBehaviour
         {
             if (collider.gameObject.TryGetComponent(out Health health))
             {
-                if (collider.gameObject != gameObject&& _shooting == null)
+                if (health.IsDead==false&&health.gameObject != gameObject&& _shooting == null)
                 {
-                    Shoot(collider.gameObject.transform);
+                    Shoot(health);
                     return;
                 }
             }
         } 
-        
-
-        
-        if (_currentTarget!=null&&_currentTarget.gameObject.activeSelf==false)
-        {
-            StopShoot();
-        }
-        else if (_currentTarget != null &&Vector3.Distance(_currentTarget.position,transform.position)>_stopShootingDistance)
-        {
-            StopShoot();
-        }
     }
 
-    private void Shoot(Transform target)
+    private void Shoot(Health target)
     {
             _currentTarget = target;
             _isShooting = true;
-            _shooting = StartCoroutine(Shooting(target));
+            _shooting = StartCoroutine(Shooting(_currentTarget));
         
     }
 
@@ -75,9 +64,11 @@ public class Shooter : MonoBehaviour
 
     }
 
-    private IEnumerator Shooting(Transform target)
+    private IEnumerator Shooting(Health target)
     {
-        while (target.gameObject.activeSelf)
+        
+        while (_selfHealth.IsDead==false&&_currentTarget!=null
+            && target.IsDead==false && Vector3.Distance(_currentTarget.transform.position, transform.position) < _stopShootingDistance)
         {
             _weapon.Shoot(_currentTarget);
             yield return null;

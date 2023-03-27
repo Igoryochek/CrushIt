@@ -6,32 +6,36 @@ using UnityEngine;
 public class EnemyGuardMover : Mover
 {
 
-    private Transform _target;
+    private Health _target;
 
 
     public override void Move()
     {
-
-        if (_shooter.IsShooting)
+        if (_health.IsDead == false)
         {
-            if (_target==null)
+            if (_shooter.IsShooting)
             {
                 _target = _shooter.Target;
+                Vector3 newPosition = new Vector3(transform.position.x + (_target.transform.position.x - transform.position.x), transform.position.y,
+                    transform.position.z + (_target.transform.position.z - transform.position.z));
+                if (Vector3.Distance(transform.position, newPosition) > _stopMovingDistance)
+                {
+                    _animatorController.Run();
+                    transform.position = Vector3.MoveTowards(transform.position, newPosition, _movingSpeed * Time.deltaTime);
+                    Rotate(newPosition);
+                }
+                else
+                {
+                    Rotate(newPosition);
+                    _animatorController.StopRunAndShoot();
+                }
             }
-            Rotate(_target.position);            
+            else
+            {
+                _animatorController.StopRun();
+            }
         }
-        if (_target != null &&Vector3.Distance(_target.position, transform.position) > 8)
-        {
-            Vector3 newPosition = new Vector3(transform.position.x + (_target.position.x - transform.position.x) * _movingSpeed * Time.deltaTime,
-            transform.position.y, transform.position.z + (_target.position.z - transform.position.z) * _movingSpeed * Time.deltaTime);
-            _rigidbody.MovePosition(newPosition);
-            Debug.Log(transform.position+_target.position * _movingSpeed * Time.deltaTime);
-            transform.LookAt(newPosition);
-            _animatorController.Walk();
-        }
-        else
-        {
-            _animatorController.StopWalk();
-        }
+
+
     }
 }

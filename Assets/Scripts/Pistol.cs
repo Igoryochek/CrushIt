@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
-    public override void Shoot(Transform target)
+
+    public override void Shoot(Health target)
     {
+        _particle.Play();
         Bullet bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-        Vector3 targetPosition= target.position;
-        bullet.MoveTo(targetPosition);
+        bullet.MoveTo(target.transform);
+
     }
 }

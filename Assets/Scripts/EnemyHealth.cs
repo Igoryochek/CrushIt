@@ -6,27 +6,38 @@ public class EnemyHealth : Health
 {
 
     [SerializeField] private Helper _helperPrefab;
+    [SerializeField] private AidKit _aidKitPrefab;
+    [SerializeField] private ParticleSystem _particlePrefab;
 
 
     public override void Die()
     {
         _animatorController.Die();
-        int randomChance = Random.Range(0,10);
-        if (randomChance<3)
-        {
-            GiveBonus();
-        }
+        TryGiveBonus();
     }
 
-    private void GiveBonus()
+    private void TryGiveBonus()
     {
-        StartCoroutine(GivingBonus());
+        StartCoroutine(TryingGiveBonus());
     }
 
-    private IEnumerator GivingBonus()
+    private IEnumerator TryingGiveBonus()
     {        
         yield return new WaitForSeconds(3);
-        Instantiate(_helperPrefab, transform.position, Quaternion.identity);
+        Instantiate(_particlePrefab, transform.position,Quaternion.identity);
+        int randomChance = Random.Range(0, 10);
+        if (randomChance < 3)
+        {
+
+
+            Instantiate(_helperPrefab, transform.position, transform.rotation);
+        }
+        else if (randomChance>3)
+        {
+            Vector3 aidPrefabNewPosition = new Vector3(transform.position.x,_aidKitPrefab.transform.position.y,transform.position.z);
+            Instantiate(_aidKitPrefab,aidPrefabNewPosition, _aidKitPrefab.transform.rotation);
+        }
         gameObject.SetActive(false);
+
     }
 }

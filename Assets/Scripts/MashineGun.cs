@@ -7,7 +7,7 @@ public class MashineGun : Weapon
     [SerializeField] private int _bulletsCountInTime;
 
     private int _startCount;
-    public override void Shoot(Transform target)
+    public override void Shoot(Health target)
     {
         StartCoroutine(Shooting(target));
     }
@@ -17,14 +17,15 @@ public class MashineGun : Weapon
         _startCount = _bulletsCountInTime;
     }
 
-    private IEnumerator Shooting(Transform target)
+    private IEnumerator Shooting(Health target)
     {
         _bulletsCountInTime = _startCount;
         WaitForSeconds waitForSeconds=new WaitForSeconds(0.2f);
         while (_bulletsCountInTime!=0)
         {
+            _particle.Play();
             Bullet bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-            bullet.MoveTo(target.position);
+            bullet.MoveTo(target.transform);
             _bulletsCountInTime -= 1;
             yield return waitForSeconds;
             yield return null;

@@ -13,22 +13,24 @@ public abstract class Bullet : MonoBehaviour
         if (other.TryGetComponent(out Health health))
         {
             health.TakeDamage(_damage);
+            gameObject.SetActive(false);
         }
     }
 
-    public void MoveTo(Vector3 target)
+    public void MoveTo(Transform target)
     {
         StartCoroutine(Moving(target));
     }
 
-    private IEnumerator Moving(Vector3 target)
+    private IEnumerator Moving(Transform target)
     {
-        while (transform.position!=target)
+        Vector3 newPosition = new Vector3(target.position.x,transform.position.y, target.position.z);
+        while (transform.position!=newPosition)
         {
-            transform.position = Vector3.MoveTowards(transform.position,target,_speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position,newPosition,_speed*Time.deltaTime);
             yield return null;
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 

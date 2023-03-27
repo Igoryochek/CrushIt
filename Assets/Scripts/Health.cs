@@ -9,8 +9,11 @@ public abstract class Health : MonoBehaviour
     [SerializeField] private int _maxHealth;
 
     private int _currentHealth;
+    private bool _isDead=false;
 
     protected AnimatorController _animatorController;
+
+    public bool IsDead => _isDead;
 
     public event UnityAction<float> HealthChanged;
 
@@ -29,7 +32,19 @@ public abstract class Health : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Die();
+            _isDead = true;
         }
+    }
+
+    public void Heal(int count)
+    {
+        _currentHealth += count;
+        if (_currentHealth >= _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+        float currentHealthByMaxHealth = (float)_currentHealth / _maxHealth;
+        HealthChanged?.Invoke(currentHealthByMaxHealth);
     }
 
     public abstract void Die();

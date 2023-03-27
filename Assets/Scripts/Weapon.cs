@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform _shootPoint;
-
+    [SerializeField] protected ParticleSystem _particle;
     [SerializeField] protected Bullet Bullet;
 
-    public abstract void Shoot(Transform target);
+    public abstract void Shoot(Health target);
 
 }

@@ -6,16 +6,18 @@ public class CrystalMineMover : MonoBehaviour
 {
     [SerializeField] private float _maximumFLyDistance;
     [SerializeField] private float _speed;
+    [SerializeField] private Animator _animator;
 
     private const float YOffset = 2;
-
+    private Coroutine _moving;
     private Vector3 _newPosition;
+    private bool _needToCollect=false;
     private void Start()
     {
-        Move();
+        FlyAway();
     }
 
-    public void Move()
+    public void FlyAway()
     {
         Vector2 randomPoint = Random.insideUnitCircle * _maximumFLyDistance;
         float yAxes;
@@ -28,16 +30,55 @@ public class CrystalMineMover : MonoBehaviour
             yAxes = transform.position.y;
         }
         _newPosition = new Vector3(transform.position.x + randomPoint.x, yAxes, transform.position.z + randomPoint.y);
-        StartCoroutine(Moving());
+        Move(_newPosition);
     }
 
-    private IEnumerator Moving()
+    public void MoveToCollect(Transform target)
     {
-        Debug.Log(_newPosition);
-        Debug.Log(transform.position);
-        while (transform.position != _newPosition)
+        _needToCollect = true;
+        _animator.SetBool("Mined",true);
+        Move(target);
+    }
+
+    public void Move(Vector3 newPosition)
+    {
+        if (_moving!=null)
         {
-            transform.position = Vector3.MoveTowards(transform.position,_newPosition,_speed*Time.deltaTime);
+            StopCoroutine(_moving);
+        }
+            _moving= StartCoroutine(Moving(newPosition));
+
+    }
+    public void Move(Transform target)
+    {
+        if (_moving!=null)
+        {
+            StopCoroutine(_moving);
+        }
+            _moving= StartCoroutine(Moving(target));
+
+    }
+
+
+    private IEnumerator Moving(Transform target)
+    {
+        while (transform.position != target.position)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,target.position,_speed*Time.deltaTime);
+            yield return null;
+        }
+       
+        if (_needToCollect)
+        {
+            gameObject.SetActive(false);
+        }
+    } 
+    
+    private IEnumerator Moving(Vector3 target)
+    {
+        while (transform.position != target)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,target,_speed*Time.deltaTime);
             yield return null;
         }
     }

@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06889493ea965f4995a9b9f7f5cb1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 60
   _crystalForMinePrefabs:
   - {fileID: 9188434650341233301, guid: 53163a80376c27b449252f1b250de75c, type: 3}
   - {fileID: 8144844849462220609, guid: 141c393b9a4455949945ec4967c9b708, type: 3}
