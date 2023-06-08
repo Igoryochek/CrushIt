@@ -11,11 +11,12 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float _viewAllDelay;
 
     private Vector3 _startPosition;
-    private bool _viewing=false;
+    private bool _isViewing=false;
+    private Coroutine _viewing;
 
     private void Update()
     {
-        if (_viewing==false)
+        if (_isViewing==false)
         {
             transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z - _zOffset);
         }
@@ -23,15 +24,18 @@ public class CameraMovement : MonoBehaviour
 
     public void ViewAll()
     {
-        StartCoroutine(ViewingAll());
+        if (_viewing==null)
+        {
+            _viewing=StartCoroutine(ViewingAll());
+        }
     }
 
     private IEnumerator ViewingAll()
     {
-        _viewing = true;
+        _isViewing = true;
         _startPosition = transform.position;
         Vector3 newPosition = new Vector3(transform.position.x,_startPosition.y+_yMaxOffset,
-            transform.position.z);
+            transform.position.z-_zOffset);
         while (transform.position.y!=newPosition.y)
         {
             transform.position = Vector3.MoveTowards(transform.position,newPosition,_speed*Time.deltaTime);
@@ -44,6 +48,7 @@ public class CameraMovement : MonoBehaviour
             yield return null;
 
         }
-        _viewing = false;
+        _viewing = null;
+        _isViewing = false;
     }
 }

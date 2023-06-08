@@ -24,8 +24,7 @@ public class MashineGun : Weapon
         while (_bulletsCountInTime!=0)
         {
             _particle.Play();
-            Bullet bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-            bullet.MoveTo(target.transform);
+            target.TakeDamage(_damage);
             _bulletsCountInTime -= 1;
             yield return waitForSeconds;
             yield return null;

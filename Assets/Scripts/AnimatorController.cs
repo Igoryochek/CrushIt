@@ -11,6 +11,7 @@ public class AnimatorController : MonoBehaviour
     private const string Idle = "Idle";
     private const string Running = "Run";
     private const string Fall = "Fall";
+    private const string RiseUp = "RiseUp";
     private const string Up = "Up";
     private const string Push = "Push";
 
@@ -60,6 +61,11 @@ public class AnimatorController : MonoBehaviour
         StopShoot();
         _animator.SetTrigger(Fall);
         
+    }
+    
+    public void RisingUp()
+    {
+        _animator.SetTrigger(RiseUp);        
     }
     
     public void StandUp()

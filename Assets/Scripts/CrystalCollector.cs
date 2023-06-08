@@ -5,22 +5,21 @@ using UnityEngine.Events;
 
 public class CrystalCollector : MonoBehaviour
 {
-    private int _crystalsCount;
-
     public event UnityAction<int> CrystalAdded;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out CrystalMineMover crystalMine))
+        if (other.TryGetComponent(out CrystalMine crystalMine))
         {
-            AddCrystal();
-            crystalMine.MoveToCollect(transform);
+            Debug.Log("hier");
+            AddCrystal(crystalMine.Count);
+            crystalMine.MoveToCollect(this);
         }
     }
 
-    private void AddCrystal()
+    private void AddCrystal(int crystalsCount)
     {
-        _crystalsCount += 10;
-        CrystalAdded?.Invoke(_crystalsCount);
+        CrystalAdded?.Invoke(crystalsCount);
+
     }
 }

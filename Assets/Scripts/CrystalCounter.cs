@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CrystalCounter : MonoBehaviour
+public class CrystalCounter : MenuCrystalCounter
 {
     [SerializeField] private CrystalCollector _player;
-    [SerializeField] private  TextMeshProUGUI _text;
+
+
 
     private void OnEnable()
     {
-        _player.CrystalAdded += OnCrystalAdded;
+        _player.CrystalAdded += AddCrystals;
+
     }
     private void OnDisable()
     {
-        _player.CrystalAdded -= OnCrystalAdded;
+        _player.CrystalAdded -= AddCrystals;
 
     }
 
-    private void OnCrystalAdded(int count)
+    public override void AddCrystals(int count)
     {
-        _text.text = count.ToString();
-    }
+        base.AddCrystals(count);
+        if (_starting==false)
+        {
+            _earnedCrystals += count;
+        }
+    }     
+
 }

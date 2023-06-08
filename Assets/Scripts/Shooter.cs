@@ -9,6 +9,8 @@ public class Shooter : MonoBehaviour
 {
     [SerializeField] private Weapon _weapon;
     [SerializeField] private float _timeBetweenShoot;
+    [SerializeField] private float _bulletSpeed;
+    [SerializeField] private int _damage;
     [SerializeField] private float _shootingDistance;
     [SerializeField] private float _stopShootingDistance;
     [SerializeField] private Transform _headPoint;
@@ -20,11 +22,16 @@ public class Shooter : MonoBehaviour
     private Health _selfHealth;
 
     public Health Target => _currentTarget;
+    public int Damage => _damage;
 
     public bool IsShooting => _isShooting;
 
     private void Start()
     {
+        if ((gameObject.TryGetComponent(out Player player)||gameObject.TryGetComponent(out Helper helper)) && PlayerPrefs.HasKey("PlayerBulletSpeed"))
+        {
+            _bulletSpeed = PlayerPrefs.GetInt("PlayerBulletSpeed");
+        }
         _selfHealth = GetComponent<Health>();
     }
 
@@ -77,5 +84,19 @@ public class Shooter : MonoBehaviour
         _isShooting = false;
         _shooting = null;
         _currentTarget = null;
+    }
+
+    public float BulletSpeed()
+    {
+        float speed;
+        if ((gameObject.TryGetComponent(out Player player) || gameObject.TryGetComponent(out Helper helper)) && PlayerPrefs.HasKey("PlayerBulletSpeed"))
+        {
+            speed = PlayerPrefs.GetInt("PlayerBulletSpeed");
+        }
+        else
+        {
+            speed = _bulletSpeed;
+        }
+        return speed;
     }
 }

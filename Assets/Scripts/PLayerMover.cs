@@ -11,6 +11,14 @@ public class PlayerMover : Mover
     private  float _pushingDelay=1.5f;
     private Coroutine _pushingButton;
 
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("PlayerSpeed"))
+        {
+            _movingSpeed = PlayerPrefs.GetInt("PlayerSpeed");
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out SecretSwitch secretSwitch))
@@ -18,18 +26,20 @@ public class PlayerMover : Mover
             if (_pushingButton==null&&_isFirstTimePushingButton)
             {
                 _animatorController.PushButton();
-                _pushingButton =StartCoroutine(PushingButton());
+                _pushingButton =StartCoroutine(PushingButton(secretSwitch.transform.position));
                 Rotate(secretSwitch.transform.position);
                 _isFirstTimePushingButton = false;
             }
         }
     }
 
-    private IEnumerator PushingButton()
+    private IEnumerator PushingButton(Vector3 direction)
     {
         _rigidbody.velocity = Vector3.zero;
         _movingSpeed = 0;
         _isPushingButton = true;
+        Vector3 newDirection = new Vector3(direction.x,transform.position.y,direction.z);
+        transform.LookAt(newDirection);
         yield return new WaitForSeconds(_pushingDelay);
         _isPushingButton = false;
         _movingSpeed = _startSpeed;

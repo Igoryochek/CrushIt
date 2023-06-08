@@ -4,16 +4,20 @@ using UnityEngine;
 
 public abstract class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _speed;
     [SerializeField] private int _damage;
+    [SerializeField] private ParticleSystem _shootParticalPrefab;
 
+    private float _speed;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Health health))
         {
             health.TakeDamage(_damage);
-            gameObject.SetActive(false);
+            Instantiate(_shootParticalPrefab,transform.position,Quaternion.identity);
+
+            Destroy(gameObject);
+            
         }
     }
 
@@ -30,8 +34,17 @@ public abstract class Bullet : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position,newPosition,_speed*Time.deltaTime);
             yield return null;
         }
-        gameObject.SetActive(false);
+        Instantiate(_shootParticalPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
-
+    public void SetSpeed(float speed)
+    {
+        _speed = speed;
+    }
+    
+    public void SetDamage(int damage)
+    {
+        _damage = damage;
+    }
 }

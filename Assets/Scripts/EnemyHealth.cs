@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyHealth : Health
 {
 
-    [SerializeField] private Helper _helperPrefab;
-    [SerializeField] private AidKit _aidKitPrefab;
     [SerializeField] private ParticleSystem _particlePrefab;
+    [SerializeField] private Pooler _helpersPooler;
+    [SerializeField] private Pooler _aidKitPooler;
 
 
     public override void Die()
@@ -28,14 +28,23 @@ public class EnemyHealth : Health
         int randomChance = Random.Range(0, 10);
         if (randomChance < 3)
         {
-
-
-            Instantiate(_helperPrefab, transform.position, transform.rotation);
+            if (_helpersPooler.TryGetObject(out GameObject helper))
+            {
+                helper.transform.position = transform.position;
+                helper.transform.rotation = transform.rotation;
+                helper.SetActive(true);
+                helper.GetComponent<HelperHealth>().SetNoDie();
+                helper.GetComponent<HelperMover>().Starting();
+            }
         }
         else if (randomChance>3)
         {
-            Vector3 aidPrefabNewPosition = new Vector3(transform.position.x,_aidKitPrefab.transform.position.y,transform.position.z);
-            Instantiate(_aidKitPrefab,aidPrefabNewPosition, _aidKitPrefab.transform.rotation);
+            if (_aidKitPooler.TryGetObject(out GameObject aidKit))
+            {
+                aidKit.transform.position = new Vector3(transform.position.x, transform.position.y+1, transform.position.z);
+                aidKit.transform.rotation =aidKit.transform.rotation;
+                aidKit.SetActive(true);
+            }
         }
         gameObject.SetActive(false);
 

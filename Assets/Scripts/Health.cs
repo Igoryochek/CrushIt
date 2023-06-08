@@ -6,19 +6,34 @@ using UnityEngine.Events;
 [RequireComponent(typeof(AnimatorController))]
 public abstract class Health : MonoBehaviour
 {
-    [SerializeField] private int _maxHealth;
+    [SerializeField] protected int _maxHealth;
+    [SerializeField] protected string _savingName;
+    [SerializeField] protected AudioSource _audioSource;
 
-    private int _currentHealth;
-    private bool _isDead=false;
+    protected bool _isDead=false;
 
+    protected HealthBar _healthBar;
+    protected int _currentHealth;
     protected AnimatorController _animatorController;
 
     public bool IsDead => _isDead;
 
     public event UnityAction<float> HealthChanged;
 
+    private void OnEnable()
+    {
+        Heal(_maxHealth);
+        if (_isDead)
+        {
+            _isDead = false;
+        }
+    }
     private void Start()
     {
+        if (PlayerPrefs.HasKey(_savingName))
+        {
+            _maxHealth = PlayerPrefs.GetInt(_savingName);
+        }
         _currentHealth = _maxHealth;
         _animatorController = GetComponent<AnimatorController>();
     }
@@ -31,6 +46,7 @@ public abstract class Health : MonoBehaviour
 
         if (_currentHealth <= 0)
         {
+            _currentHealth = 0;
             Die();
             _isDead = true;
         }
@@ -45,6 +61,12 @@ public abstract class Health : MonoBehaviour
         }
         float currentHealthByMaxHealth = (float)_currentHealth / _maxHealth;
         HealthChanged?.Invoke(currentHealthByMaxHealth);
+    }
+
+    public void SetNoDie()
+    {
+        _isDead = false;
+        Heal(_maxHealth);
     }
 
     public abstract void Die();
