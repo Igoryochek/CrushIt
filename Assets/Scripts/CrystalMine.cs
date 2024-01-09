@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrystalMine : MonoBehaviour
@@ -10,10 +9,11 @@ public class CrystalMine : MonoBehaviour
     [SerializeField] private int _count;
     [SerializeField] private AudioSource _audioSource;
 
-    private const float YOffset = 2;
+    private const float YOffset = 2f;
     private Coroutine _moving;
     private Vector3 _newPosition;
     private bool _needToCollect = false;
+
     public int Count => _count;
 
     private void Start()
@@ -25,6 +25,7 @@ public class CrystalMine : MonoBehaviour
     {
         Vector2 randomPoint = Random.insideUnitCircle * _maximumFLyDistance;
         float yAxes;
+
         if (randomPoint.x + YOffset > transform.position.y)
         {
             yAxes = transform.position.y + randomPoint.x + YOffset;
@@ -33,6 +34,7 @@ public class CrystalMine : MonoBehaviour
         {
             yAxes = transform.position.y;
         }
+
         _newPosition = new Vector3(transform.position.x + randomPoint.x, yAxes, transform.position.z + randomPoint.y);
         Move(_newPosition);
     }
@@ -51,6 +53,7 @@ public class CrystalMine : MonoBehaviour
         {
             StopCoroutine(_moving);
         }
+
         _moving = StartCoroutine(Moving(newPosition));
 
     }
@@ -60,17 +63,18 @@ public class CrystalMine : MonoBehaviour
         {
             StopCoroutine(_moving);
         }
+
         _moving = StartCoroutine(Moving(target));
-
     }
-
 
     private IEnumerator Moving(CrystalCollector target)
     {
-        Vector3 newPosition = new Vector3(target.transform.position.x, target.transform.position.y+1, target.transform.position.z);
+        Vector3 newPosition = new Vector3(target.transform.position.x, target.transform.position.y + YOffset,
+            target.transform.position.z);
+
         while (transform.position != target.transform.position)
         {
-            newPosition = new Vector3(target.transform.position.x, target.transform.position.y + 1, target.transform.position.z);
+            newPosition = new Vector3(target.transform.position.x, target.transform.position.y + YOffset, target.transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, newPosition, _speed * Time.deltaTime);
             yield return null;
         }

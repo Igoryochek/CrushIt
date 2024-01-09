@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
@@ -18,6 +16,7 @@ public abstract class Weapon : MonoBehaviour
         _shooter = GetComponentInParent<Shooter>();
         _bulletSpeed = _shooter.BulletSpeed();
         _damage = _shooter.Damage;
+
         if (PlayerPrefs.HasKey(_savingName))
         {
             _damage = PlayerPrefs.GetInt(_savingName);

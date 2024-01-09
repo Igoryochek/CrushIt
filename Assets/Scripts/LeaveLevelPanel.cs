@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -12,19 +10,24 @@ public class LeaveLevelPanel : MonoBehaviour
 
     private int _totalCount;
 
+    private const float FullSoundValue = 1f;
+    private const float ZeroSoundValue = 0f;
+
     private void OnEnable()
     {
-        Time.timeScale = 0;
+        Time.timeScale = ZeroSoundValue;
         _text.text = _crystalCounter.EarnedCrystals.ToString();
     }
 
     private void OnDisable()
     {
-        Time.timeScale = 1;
+        Time.timeScale = FullSoundValue;
     }
+
     public void LeaveLevel()
     {
         PlayerPrefs.SetInt("CrystalsCount", _crystalCounter.CrystalsCount);
+
         if (PlayerPrefs.HasKey("TotalCrystalsCount"))
         {
             _totalCount = _crystalCounter.EarnedCrystals + PlayerPrefs.GetInt("TotalCrystalsCount");
@@ -35,14 +38,14 @@ public class LeaveLevelPanel : MonoBehaviour
             PlayerPrefs.SetInt("TotalCrystalsCount", _crystalCounter.CrystalsCount);
             _totalCount = _crystalCounter.CrystalsCount;
         }
-        YandexGame.NewLeaderboardScores("Leaderboard",_totalCount);
+
+        YandexGame.NewLeaderboardScores("Leaderboard", _totalCount);
         SceneManager.LoadScene(0);
     }
 
     public void MultiplyCrystals()
     {
         _crystalCounter.MultyplyEarnedCrystals();
-        Debug.Log(_crystalCounter.EarnedCrystals);
         _text.text = _crystalCounter.EarnedCrystals.ToString();
     }
 }

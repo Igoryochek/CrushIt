@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HintPanel : MonoBehaviour
@@ -7,11 +6,14 @@ public class HintPanel : MonoBehaviour
     [SerializeField] private float _showingTime;
 
     private Coroutine _showing;
-    private bool _isMobile=false;
+    private bool _isMobile = false;
+
+    private const float FullSoundValue = 1f;
+    private const float ZeroSoundValue = 0f;
+
     private void OnEnable()
     {
         Show();
-
     }
 
     private void Start()
@@ -26,7 +28,7 @@ public class HintPanel : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            if (!_isMobile&&(!Input.GetKeyDown(KeyCode.RightArrow)|| !Input.GetKeyDown(KeyCode.D) || !Input.GetKeyDown(KeyCode.S)
+            if (!_isMobile && (!Input.GetKeyDown(KeyCode.RightArrow) || !Input.GetKeyDown(KeyCode.D) || !Input.GetKeyDown(KeyCode.S)
                 || !Input.GetKeyDown(KeyCode.W)))
             {
                 StopShow();
@@ -40,25 +42,24 @@ public class HintPanel : MonoBehaviour
 
     private void Show()
     {
-        if (_showing==null)
+        if (_showing == null)
         {
-            _showing=StartCoroutine(Showing());
+            _showing = StartCoroutine(Showing());
         }
     }
 
     private void StopShow()
     {
         StopCoroutine(_showing);
-        Time.timeScale = 1;
+        Time.timeScale = FullSoundValue;
         gameObject.SetActive(false);
     }
 
     private IEnumerator Showing()
     {
-        Time.timeScale = 0;
+        Time.timeScale = ZeroSoundValue;
         yield return new WaitForSecondsRealtime(_showingTime);
-        Time.timeScale = 1;
+        Time.timeScale = FullSoundValue;
         gameObject.SetActive(false);
-
     }
 }

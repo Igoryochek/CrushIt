@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Bullet : MonoBehaviour
@@ -14,10 +13,8 @@ public abstract class Bullet : MonoBehaviour
         if (other.TryGetComponent(out Health health))
         {
             health.TakeDamage(_damage);
-            Instantiate(_shootParticalPrefab,transform.position,Quaternion.identity);
-
+            Instantiate(_shootParticalPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
-            
         }
     }
 
@@ -28,12 +25,14 @@ public abstract class Bullet : MonoBehaviour
 
     private IEnumerator Moving(Transform target)
     {
-        Vector3 newPosition = new Vector3(target.position.x,transform.position.y, target.position.z);
-        while (transform.position!=newPosition)
+        Vector3 newPosition = new Vector3(target.position.x, transform.position.y, target.position.z);
+
+        while (transform.position != newPosition)
         {
-            transform.position = Vector3.MoveTowards(transform.position,newPosition,_speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, _speed * Time.deltaTime);
             yield return null;
         }
+
         Instantiate(_shootParticalPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -42,7 +41,7 @@ public abstract class Bullet : MonoBehaviour
     {
         _speed = speed;
     }
-    
+
     public void SetDamage(int damage)
     {
         _damage = damage;

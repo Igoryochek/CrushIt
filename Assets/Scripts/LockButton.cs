@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class LockButton : MonoBehaviour
 {
@@ -15,15 +12,15 @@ public class LockButton : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey("LockButton"+_planetNumber+"Off"))
+        if (PlayerPrefs.HasKey("LockButton" + _planetNumber + "Off"))
         {
             gameObject.SetActive(false);
         }
     }
+
     public void OpenPanel()
     {
         _panelToOpen.SetCurrentLockButton(this);
         _panelToOpen.gameObject.SetActive(true);
-        
     }
 }

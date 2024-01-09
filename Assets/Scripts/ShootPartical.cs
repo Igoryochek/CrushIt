@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootPartical : MonoBehaviour
 {
+    [SerializeField] private float _delay = 1f;
     private void Start()
     {
         StartCoroutine(Living());
@@ -11,7 +11,7 @@ public class ShootPartical : MonoBehaviour
 
     private IEnumerator Living()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_delay);
         Destroy(gameObject);
     }
 }

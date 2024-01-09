@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Secret : MonoBehaviour
@@ -16,7 +14,6 @@ public class Secret : MonoBehaviour
     private void OnDisable()
     {
         _secretSwitch.TurnedOn -= OnTurnedOn;
-
     }
 
     private void OnCollisionEnter(Collision collision)

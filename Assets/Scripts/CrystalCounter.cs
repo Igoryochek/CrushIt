@@ -1,32 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class CrystalCounter : MenuCrystalCounter
 {
     [SerializeField] private CrystalCollector _player;
 
-
-
     private void OnEnable()
     {
-        _player.CrystalAdded += AddCrystals;
-
+        _player.CrystalAdded += OnCrystalsAdded;
     }
+
     private void OnDisable()
     {
-        _player.CrystalAdded -= AddCrystals;
-
+        _player.CrystalAdded -= OnCrystalsAdded;
     }
 
-    public override void AddCrystals(int count)
+    public override void OnCrystalsAdded(int count)
     {
-        base.AddCrystals(count);
-        if (_starting==false)
+        base.OnCrystalsAdded(count);
+
+        if (_starting == false)
         {
             _earnedCrystals += count;
         }
-    }     
-
+    }
 }

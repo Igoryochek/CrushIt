@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,11 +14,12 @@ public class LoadPanel : MonoBehaviour
 
     private IEnumerator Loading()
     {
-        while (_slider.value!= _slider.maxValue)
+        while (_slider.value != _slider.maxValue)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value,_slider.maxValue,_loadSpeed*Time.deltaTime);
+            _slider.value = Mathf.MoveTowards(_slider.value, _slider.maxValue, _loadSpeed * Time.deltaTime);
             yield return null;
         }
+
         gameObject.SetActive(false);
     }
 }

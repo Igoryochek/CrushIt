@@ -1,11 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AidKit : MonoBehaviour
 {
     [SerializeField] private int _healingValue;
     [SerializeField] private AudioSource _audioSource;
+
+    private const float RotationAngleX = 0.5f;
 
     private void Start()
     {
@@ -15,21 +16,21 @@ public class AidKit : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        transform.Rotate(RotationAngleX, 0, 0);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out PlayerHealth health))
         {
             health.Heal(_healingValue);
-            StartCoroutine(Dying());
+            StartCoroutine(Disappearing());
         }
     }
 
-    private void Update()
-    {
-        transform.Rotate(0.5f,0,0);
-    }
-
-    private IEnumerator Dying()
+    private IEnumerator Disappearing()
     {
         _audioSource.Play();
         yield return new WaitForSeconds(0.2f);

@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradesPanel : MonoBehaviour
 {
     [SerializeField] private UpgradeButton[] _upgradeButtons;
+    [SerializeField] private float _delay = 0.2f;
+
     private void OnEnable()
     {
         StartCoroutine(Renewing());
@@ -12,7 +13,8 @@ public class UpgradesPanel : MonoBehaviour
 
     private IEnumerator Renewing()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(_delay);
+
         foreach (var button in _upgradeButtons)
         {
             button.Renew();

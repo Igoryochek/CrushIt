@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+
 public class AnimatorController : MonoBehaviour
 {
     private Animator _animator;
 
     private const string IdleShoot = "IdleShoot";
-    private const string Idle = "Idle";
     private const string Running = "Run";
     private const string Fall = "Fall";
     private const string RiseUp = "RiseUp";
@@ -28,6 +26,7 @@ public class AnimatorController : MonoBehaviour
             {
                 _animator.SetBool(IdleShoot, false);
             }
+
             _animator.SetBool(Running,true);
         }
     }
@@ -38,7 +37,9 @@ public class AnimatorController : MonoBehaviour
         {
             _animator.SetBool(Running,false);
         }
-    }    public void StopShoot()
+    } 
+    
+    public void StopShoot()
     {
         if (_animator.GetBool(IdleShoot))
         {
@@ -59,8 +60,7 @@ public class AnimatorController : MonoBehaviour
     {
         StopRun();
         StopShoot();
-        _animator.SetTrigger(Fall);
-        
+        _animator.SetTrigger(Fall);        
     }
     
     public void RisingUp()
@@ -83,12 +83,14 @@ public class AnimatorController : MonoBehaviour
             _animator.SetBool(Up,false);
         }
     }
+
     public void PushButton()
     {
         if (_animator.GetBool(Running))
         {
             _animator.SetBool(Running,false);
         }
+
         _animator.SetTrigger(Push);
     }
 }

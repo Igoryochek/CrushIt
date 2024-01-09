@@ -1,14 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : Health
 {
-
     [SerializeField] private ParticleSystem _particlePrefab;
     [SerializeField] private Pooler _helpersPooler;
     [SerializeField] private Pooler _aidKitPooler;
+    [SerializeField] private float _delay = 3f;
+    [SerializeField] private int _randomChanceMaximumValue;
 
+    private const int RandomChanceMiddleValue = 3;
 
     public override void Die()
     {
@@ -22,11 +23,12 @@ public class EnemyHealth : Health
     }
 
     private IEnumerator TryingGiveBonus()
-    {        
-        yield return new WaitForSeconds(3);
-        Instantiate(_particlePrefab, transform.position,Quaternion.identity);
-        int randomChance = Random.Range(0, 10);
-        if (randomChance < 3)
+    {
+        yield return new WaitForSeconds(_delay);
+        Instantiate(_particlePrefab, transform.position, Quaternion.identity);
+        int randomChance = Random.Range(0, _randomChanceMaximumValue);
+
+        if (randomChance < RandomChanceMiddleValue)
         {
             if (_helpersPooler.TryGetObject(out GameObject helper))
             {
@@ -37,16 +39,16 @@ public class EnemyHealth : Health
                 helper.GetComponent<HelperMover>().Starting();
             }
         }
-        else if (randomChance>3)
+        else if (randomChance > RandomChanceMiddleValue)
         {
             if (_aidKitPooler.TryGetObject(out GameObject aidKit))
             {
-                aidKit.transform.position = new Vector3(transform.position.x, transform.position.y+1, transform.position.z);
-                aidKit.transform.rotation =aidKit.transform.rotation;
+                aidKit.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+                aidKit.transform.rotation = aidKit.transform.rotation;
                 aidKit.SetActive(true);
             }
         }
-        gameObject.SetActive(false);
 
+        gameObject.SetActive(false);
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationMover : MonoBehaviour
@@ -12,31 +11,34 @@ public class AnimationMover : MonoBehaviour
 
     private void Update()
     {
-        MoveUpDown();
+        Move();
     }
 
-    public void MoveUpDown()
+    public void Move()
     {
         if (_movingUpDown == null)
         {
-            _movingUpDown = StartCoroutine(MovingUpDown());
+            _movingUpDown = StartCoroutine(Moving());
         }
     }
 
-    private IEnumerator MovingUpDown()
+    private IEnumerator Moving()
     {
         _startPosition = transform.position;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + _offsetY, transform.position.z);
+
         while (transform.position != newPosition)
         {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, _movingSpeed * Time.deltaTime);
             yield return null;
         }
+
         while (transform.position != _startPosition)
         {
             transform.position = Vector3.MoveTowards(transform.position, _startPosition, _movingSpeed * Time.deltaTime);
             yield return null;
         }
+
         _movingUpDown = null;
     }
 }

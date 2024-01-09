@@ -1,21 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using YG;
 
 public class AdsManager : MonoBehaviour
 {
-    [SerializeField]private AudioManager _audioManager;
+    [SerializeField] private AudioManager _audioManager;
 
-    public void ShowFirstAd()
+    public void ShowInterstitialAd()
     {
         YandexGame.RewVideoShow(0);
-        StopGame();
-    }
-    
-    public void ShowSecondAd()
-    {
-        YandexGame.RewVideoShow(1);
         StopGame();
     }
 
@@ -24,7 +16,7 @@ public class AdsManager : MonoBehaviour
         Time.timeScale = 0;
         _audioManager.TurnOffSound();
     }
-    
+
     public void PlayGame()
     {
         Time.timeScale = 1;

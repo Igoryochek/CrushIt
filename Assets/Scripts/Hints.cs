@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hints : MonoBehaviour
@@ -9,12 +8,14 @@ public class Hints : MonoBehaviour
     [SerializeField] private GameObject _shipHint;
     [SerializeField] private GameObject _joystickHint;
     [SerializeField] private GameObject _buttonsHint;
+    [SerializeField] private float _showingDelay;
 
     private bool _isMobile = false;
 
     private void Start()
     {
         StartCoroutine(ShowingHints());
+
         if (Application.isMobilePlatform)
         {
             _isMobile = true;
@@ -23,7 +24,8 @@ public class Hints : MonoBehaviour
 
     private IEnumerator ShowingHints()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(_showingDelay);
+
         if (_isMobile)
         {
             _joystickHint.SetActive(true);
@@ -33,11 +35,12 @@ public class Hints : MonoBehaviour
             _buttonsHint.SetActive(true);
 
         }
-        yield return new WaitForSeconds(2);
+
+        yield return new WaitForSeconds(_showingDelay);
         _crystalHint.SetActive(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_showingDelay);
         _shipHint.SetActive(true);
-        yield return new WaitForSeconds(2);
-        _enemyHint.SetActive(true);       
+        yield return new WaitForSeconds(_showingDelay);
+        _enemyHint.SetActive(true);
     }
 }

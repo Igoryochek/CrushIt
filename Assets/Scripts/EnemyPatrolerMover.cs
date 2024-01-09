@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPatrolerMover : Mover
@@ -13,9 +11,10 @@ public class EnemyPatrolerMover : Mover
 
     private void Start()
     {
-        transform.position =new Vector3( _pointOne.position.x,transform.position.y,_pointOne.position.z);
+        transform.position = new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z);
         _animatorController.Run();
     }
+
     public override void Move()
     {
         if (_health.IsDead == false)
@@ -23,9 +22,10 @@ public class EnemyPatrolerMover : Mover
             if (_shooter.IsShooting)
             {
                 _target = _shooter.Target;
-                Vector3 newPosition = new Vector3(transform.position.x + (_target.transform.position.x - transform.position.x), transform.position.y,
-                    transform.position.z + (_target.transform.position.z - transform.position.z));
-                if (Vector3.Distance(transform.position,newPosition)>_stopMovingDistance)
+                Vector3 newPosition = new Vector3(transform.position.x + (_target.transform.position.x - transform.position.x),
+                    transform.position.y, transform.position.z + (_target.transform.position.z - transform.position.z));
+
+                if (Vector3.Distance(transform.position, newPosition) > _stopMovingDistance)
                 {
                     _animatorController.Run();
                     transform.position = Vector3.MoveTowards(transform.position, newPosition, _movingSpeed * Time.deltaTime);
@@ -35,20 +35,19 @@ public class EnemyPatrolerMover : Mover
                 {
                     _animatorController.StopRunAndShoot();
                 }
-
             }
             else
             {
                 _animatorController.Run();
+
                 if (_pointOneMoving == false)
                 {
                     transform.position = Vector3.MoveTowards(transform.position,
                         new Vector3(_pointTwo.position.x, transform.position.y, _pointTwo.position.z), _patrolSpeed * Time.deltaTime);
-                    
+
                     if (transform.position == new Vector3(_pointTwo.position.x, transform.position.y, _pointTwo.position.z))
                     {
                         _pointOneMoving = true;
-
                     }
                     else
                     {
@@ -59,6 +58,7 @@ public class EnemyPatrolerMover : Mover
                 {
                     transform.position = Vector3.MoveTowards(transform.position,
                         new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z), _patrolSpeed * Time.deltaTime);
+
                     if (transform.position == new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z))
                     {
                         _pointOneMoving = false;
@@ -66,15 +66,9 @@ public class EnemyPatrolerMover : Mover
                     else
                     {
                         Rotate(new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z));
-
                     }
-
                 }
-
             }
-
-        }    
+        }
     }
-
-
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -17,12 +15,15 @@ public class UpgradeButton : MonoBehaviour
     private string _startDescription;
     private string _startPriceText;
 
+    private const float Offset = 0.1f;
+
     public void Renew()
     {
         _startDescription = _descriptionText.text;
         _startPriceText = _crystalsPriceText.text;
         _crystalsPriceText.text += _price;
         int savingName;
+
         if (PlayerPrefs.HasKey(_savingName))
         {
             savingName = PlayerPrefs.GetInt(_savingName);
@@ -31,17 +32,19 @@ public class UpgradeButton : MonoBehaviour
         {
             savingName = _startValue;
         }
+
         if (PlayerPrefs.HasKey(_savingPrice))
         {
             _price = PlayerPrefs.GetInt(_savingPrice);
         }
+
         _crystalsPriceText.text = _startPriceText + _price.ToString();
         _descriptionText.text = "+" + _upgradeValue.ToString() + " " + _startDescription + savingName.ToString();
     }
 
     public void BuyUpgrade()
     {
-        if (_counter.CrystalsCount>=_price)
+        if (_counter.CrystalsCount >= _price)
         {
             if (PlayerPrefs.HasKey(_savingName))
             {
@@ -54,9 +57,9 @@ public class UpgradeButton : MonoBehaviour
 
             _counter.RemoveCrystals(_price);
             _descriptionText.text = "+" + _upgradeValue.ToString() + " " + _startDescription + PlayerPrefs.GetInt(_savingName).ToString();
-            _price +=(int)((float)_price* 0.1f);
-            _crystalsPriceText.text =_startPriceText+ _price.ToString();
-            PlayerPrefs.SetInt(_savingPrice,_price);
+            _price += (int)((float)_price * Offset);
+            _crystalsPriceText.text = _startPriceText + _price.ToString();
+            PlayerPrefs.SetInt(_savingPrice, _price);
         }
     }
 }

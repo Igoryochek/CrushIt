@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +9,6 @@ public class CrystalCollector : MonoBehaviour
     {
         if (other.TryGetComponent(out CrystalMine crystalMine))
         {
-            Debug.Log("hier");
             AddCrystal(crystalMine.Count);
             crystalMine.MoveToCollect(this);
         }
@@ -20,6 +17,5 @@ public class CrystalCollector : MonoBehaviour
     private void AddCrystal(int crystalsCount)
     {
         CrystalAdded?.Invoke(crystalsCount);
-
     }
 }

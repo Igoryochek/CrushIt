@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +8,7 @@ public class Pooler : MonoBehaviour
 
     public bool TryGetObject(out GameObject foundObject)
     {
-        foundObject = _pooledObjects.FirstOrDefault(f=>f.activeSelf==false);
+        foundObject = _pooledObjects.FirstOrDefault(f => f.activeSelf == false);
         return foundObject != null;
     }
 }
