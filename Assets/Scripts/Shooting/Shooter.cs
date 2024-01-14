@@ -60,23 +60,30 @@ namespace Shooting
         {
             while (gameObject.activeSelf)
             {
-                TryShoot();
+                if (TryShoot(out Health target))
+                {
+                    Shoot(target);
+                }
+
                 yield return new WaitForSeconds(_timeBetweenTryingShoot);
             }
         }
 
-        private void TryShoot()
+        private bool TryShoot(out Health target)
         {
+            Health currentTarget = null;
+            target = currentTarget;
             Collider[] colliders = Physics.OverlapSphere(transform.position, _shootingDistance, _layerMask);
 
             foreach (var collider in colliders)
             {
                 if (collider.gameObject.TryGetComponent(out Health health) && health.IsDead == false && health.gameObject != gameObject)
                 {
-                    Shoot(health);
-                    return;
+                    target = health;
                 }
             }
+
+            return target != null;
         }
 
         private void Shoot(Health target)
