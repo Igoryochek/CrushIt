@@ -9,21 +9,21 @@ namespace Counter
 
         private void OnEnable()
         {
-            _player.CrystalAdded += AddCrystals;
+            _player.CrystalAdded += OnCrystalAdded;
         }
 
         private void OnDisable()
         {
-            _player.CrystalAdded -= AddCrystals;
+            _player.CrystalAdded -= OnCrystalAdded;
         }
 
-        public override void AddCrystals(int count)
+        public override void OnCrystalAdded(int count)
         {
-            base.AddCrystals(count);
+            base.OnCrystalAdded(count);
 
-            if (_starting == false)
+            if (Starting == false)
             {
-                _earnedCrystals += count;
+                EarnedCrystals += count;
             }
         }
     }

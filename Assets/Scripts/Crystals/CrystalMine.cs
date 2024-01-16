@@ -5,14 +5,15 @@ namespace Crystals
 {
     public class CrystalMine : MonoBehaviour
     {
+        private const float YOffset = 2f;
+        private const string Mined = "Mined";
+
         [SerializeField] private float _maximumFLyDistance;
         [SerializeField] private float _speed;
         [SerializeField] private Animator _animator;
         [SerializeField] private int _count;
         [SerializeField] private AudioSource _audioSource;
 
-        private const float YOffset = 2f;
-        private const string Mined = "Mined";
         private Coroutine _moving;
         private Vector3 _newPosition;
         private bool _needToCollect = false;
@@ -55,8 +56,8 @@ namespace Crystals
             }
 
             _moving = StartCoroutine(Moving(newPosition));
-
         }
+
         public void Move(CrystalCollector target)
         {
             if (_moving != null)
@@ -69,12 +70,17 @@ namespace Crystals
 
         private IEnumerator Moving(CrystalCollector target)
         {
-            Vector3 newPosition =
-                new Vector3(target.transform.position.x, target.transform.position.y + YOffset, target.transform.position.z);
+            Vector3 newPosition = new Vector3(
+                target.transform.position.x,
+                target.transform.position.y + YOffset,
+                target.transform.position.z);
 
             while (transform.position != target.transform.position)
             {
-                newPosition = new Vector3(target.transform.position.x, target.transform.position.y + YOffset, target.transform.position.z);
+                newPosition = new Vector3(
+                    target.transform.position.x,
+                    target.transform.position.y + YOffset,
+                    target.transform.position.z);
                 transform.position = Vector3.MoveTowards(transform.position, newPosition, _speed * Time.deltaTime);
                 yield return null;
             }
@@ -95,5 +101,3 @@ namespace Crystals
         }
     }
 }
-
-

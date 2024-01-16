@@ -1,8 +1,8 @@
-using Movement;
 using System;
+using Movement;
 using UnityEngine;
 
-namespace Player
+namespace PlayerMain
 {
     [RequireComponent(typeof(PlayerMover))]
 
@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private VariableJoystick _joystick;
 
         public event Action<Vector3> JoystickPushed;
+
         public event Action JoystickPulled;
 
         private void Start()
@@ -37,5 +38,3 @@ namespace Player
         }
     }
 }
-
-

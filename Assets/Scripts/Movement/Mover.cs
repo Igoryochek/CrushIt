@@ -8,7 +8,7 @@ namespace Movement
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Shooter))]
     [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(AnimatorController))]
+    [RequireComponent(typeof(AnimatorStateChanger))]
 
     public abstract class Mover : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Movement
         protected Vector3 CurrentDirection;
         protected Shooter Shooter;
         protected Health Health;
-        protected AnimatorController AnimatorController;
+        protected AnimatorStateChanger AnimatorController;
 
         public float MovingSpeed => Speed;
 
@@ -30,7 +30,7 @@ namespace Movement
             Rigidbody = GetComponent<Rigidbody>();
             Shooter = GetComponent<Shooter>();
             Health = GetComponent<Health>();
-            AnimatorController = GetComponent<AnimatorController>();
+            AnimatorController = GetComponent<AnimatorStateChanger>();
             StartSpeed = MovingSpeed;
         }
 
@@ -44,6 +44,19 @@ namespace Movement
 
         public abstract void Move();
 
+        public void TurnToTarget(Vector3 newPosition)
+        {
+            if (Vector3.Distance(transform.position, newPosition) <= StopMovingDistance)
+            {
+                AnimatorController.Shoot();
+                return;
+            }
+
+            AnimatorController.Run();
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, MovingSpeed * Time.deltaTime);
+            Rotate(newPosition);
+        }
+
         public void Rotate(Vector3 destination)
         {
             Vector3 direction = new Vector3(destination.x, transform.position.y, destination.z) - transform.position;
@@ -52,4 +65,3 @@ namespace Movement
         }
     }
 }
-

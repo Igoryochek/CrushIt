@@ -24,7 +24,8 @@ namespace GeneralHealth
 
         private IEnumerator Dying()
         {
-            yield return new WaitForSeconds(_delay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             _gameOverPanel.SetActive(true);
         }
     }

@@ -34,9 +34,8 @@ namespace Movement
 
             if (_pointOneMoving)
             {
-                transform.position = 
-                    Vector3.MoveTowards(transform.position, new Vector3(_pointOne.position.x,
-                    transform.position.y, _pointOne.position.z), _patrolSpeed * Time.deltaTime);
+                Vector3 pointOnePosition = new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, pointOnePosition, _patrolSpeed * Time.deltaTime);
 
                 if (transform.position != new Vector3(_pointOne.position.x, transform.position.y, _pointOne.position.z))
                 {
@@ -48,9 +47,8 @@ namespace Movement
                 return;
             }
 
-            transform.position = 
-                Vector3.MoveTowards(transform.position, new Vector3(_pointTwo.position.x, transform.position.y,
-                _pointTwo.position.z), _patrolSpeed * Time.deltaTime);
+            Vector3 pointTwoPosition = new Vector3(_pointTwo.position.x, transform.position.y, _pointTwo.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, pointTwoPosition, _patrolSpeed * Time.deltaTime);
 
             if (transform.position != new Vector3(_pointTwo.position.x, transform.position.y, _pointTwo.position.z))
             {
@@ -64,19 +62,11 @@ namespace Movement
         private void MoveToTarget()
         {
             _target = Shooter.Target;
-            Vector3 newPosition = 
-                new Vector3(transform.position.x + (_target.transform.position.x - transform.position.x),
-                transform.position.y, transform.position.z + (_target.transform.position.z - transform.position.z));
-
-            if (Vector3.Distance(transform.position, newPosition) <= StopMovingDistance)
-            {
-                AnimatorController.Shoot();
-                return;
-            }
-
-            AnimatorController.Run();
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, MovingSpeed * Time.deltaTime);
-            Rotate(newPosition);
+            Vector3 newPosition = new Vector3(
+                transform.position.x + (_target.transform.position.x - transform.position.x),
+                transform.position.y,
+                transform.position.z + (_target.transform.position.z - transform.position.z));
+            TurnToTarget(newPosition);
         }
     }
 }

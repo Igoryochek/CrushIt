@@ -21,7 +21,7 @@ namespace UI
         private void OnEnable()
         {
             Time.timeScale = ZeroSoundValue;
-            _text.text = _crystalCounter.EarnedCrystals.ToString();
+            _text.text = _crystalCounter.CurrentEarnedCrystals.ToString();
         }
 
         private void OnDisable()
@@ -35,7 +35,7 @@ namespace UI
 
             if (PlayerPrefs.HasKey(PlayerPrefsKeys.TotalCrystalsCount))
             {
-                _totalCount = _crystalCounter.EarnedCrystals + PlayerPrefs.GetInt(PlayerPrefsKeys.TotalCrystalsCount);
+                _totalCount = _crystalCounter.CurrentEarnedCrystals + PlayerPrefs.GetInt(PlayerPrefsKeys.TotalCrystalsCount);
                 PlayerPrefs.SetInt(PlayerPrefsKeys.TotalCrystalsCount, _totalCount);
             }
             else
@@ -51,8 +51,7 @@ namespace UI
         public void MultiplyCrystals()
         {
             _crystalCounter.MultyplyEarnedCrystals();
-            _text.text = _crystalCounter.EarnedCrystals.ToString();
+            _text.text = _crystalCounter.CurrentEarnedCrystals.ToString();
         }
     }
 }
-

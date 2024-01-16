@@ -8,7 +8,7 @@ namespace Environment
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out Player.Player player))
+            if (collision.gameObject.TryGetComponent(out PlayerMain.Player player))
             {
                 OpenPanel();
             }

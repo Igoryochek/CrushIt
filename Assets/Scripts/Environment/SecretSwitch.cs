@@ -1,5 +1,5 @@
-using Movement;
 using System;
+using Movement;
 using UnityEngine;
 
 namespace Environment

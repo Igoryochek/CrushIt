@@ -1,6 +1,6 @@
-using GeneralHealth;
-using Player;
 using System.Collections;
+using GeneralHealth;
+using PlayerMain;
 using UnityEngine;
 
 namespace Shooting
@@ -24,12 +24,15 @@ namespace Shooting
         private Health _selfHealth;
 
         public Health Target => _currentTarget;
+
         public int Damage => _damage;
+
         public bool IsShooting => _isShooting;
 
         private void Start()
         {
-            if ((gameObject.TryGetComponent(out Player.Player player) || gameObject.TryGetComponent(out Helper helper))
+            if ((gameObject.TryGetComponent(out Player player) ||
+                gameObject.TryGetComponent(out Helper helper))
                 && PlayerPrefs.HasKey(PlayerPrefsKeys.PlayerBulletSpeed))
             {
                 _bulletSpeed = PlayerPrefs.GetInt(PlayerPrefsKeys.PlayerBulletSpeed);
@@ -43,7 +46,8 @@ namespace Shooting
         {
             float speed;
 
-            if ((gameObject.TryGetComponent(out Player.Player player) || gameObject.TryGetComponent(out Helper helper))
+            if ((gameObject.TryGetComponent(out Player player) ||
+                gameObject.TryGetComponent(out Helper helper))
                 && PlayerPrefs.HasKey(PlayerPrefsKeys.PlayerBulletSpeed))
             {
                 speed = PlayerPrefs.GetInt(PlayerPrefsKeys.PlayerBulletSpeed);
@@ -58,6 +62,8 @@ namespace Shooting
 
         private IEnumerator TryingShoot()
         {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_timeBetweenTryingShoot);
+
             while (gameObject.activeSelf)
             {
                 if (TryShoot(out Health target))
@@ -65,7 +71,7 @@ namespace Shooting
                     Shoot(target);
                 }
 
-                yield return new WaitForSeconds(_timeBetweenTryingShoot);
+                yield return waitForSeconds;
             }
         }
 
@@ -93,25 +99,18 @@ namespace Shooting
             _shooting = StartCoroutine(Shooting(_currentTarget));
         }
 
-        private void StopShoot()
-        {
-            if (_shooting != null)
-            {
-                StopCoroutine(_shooting);
-                _isShooting = false;
-                _shooting = null;
-                _currentTarget = null;
-            }
-        }
-
         private IEnumerator Shooting(Health target)
         {
-            while (_selfHealth.IsDead == false && _currentTarget != null
-                && target.IsDead == false && Vector3.Distance(_currentTarget.transform.position, transform.position) < _stopShootingDistance)
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_timeBetweenShoot);
+
+            while (_selfHealth.IsDead == false &&
+                _currentTarget != null &&
+                target.IsDead == false &&
+                Vector3.Distance(_currentTarget.transform.position, transform.position) < _stopShootingDistance)
             {
                 _weapon.Shoot(_currentTarget);
                 yield return null;
-                yield return new WaitForSeconds(_timeBetweenShoot);
+                yield return waitForSeconds;
             }
 
             _isShooting = false;
@@ -120,4 +119,3 @@ namespace Shooting
         }
     }
 }
-

@@ -1,5 +1,5 @@
-using Environment;
 using System.Collections;
+using Environment;
 using UnityEngine;
 
 namespace Movement
@@ -64,7 +64,7 @@ namespace Movement
                 Rotate(newRotation);
             }
 
-            Vector3 newPosition = transform.position + transform.forward * MovingSpeed * Time.deltaTime;
+            Vector3 newPosition = transform.position + (transform.forward * MovingSpeed * Time.deltaTime);
             Rigidbody.MovePosition(newPosition);
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
@@ -91,9 +91,10 @@ namespace Movement
 
         private IEnumerator StartDelay()
         {
-            yield return new WaitForSeconds(_delay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             AnimatorController.StopStandUp();
-            yield return new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             _needUp = false;
         }
     }

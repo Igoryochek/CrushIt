@@ -4,7 +4,7 @@ namespace Level
 {
     [RequireComponent(typeof(Animator))]
 
-    public class AnimatorController : MonoBehaviour
+    public class AnimatorStateChanger : MonoBehaviour
     {
         private const string IdleShoot = "IdleShoot";
         private const string Running = "Run";
@@ -97,4 +97,3 @@ namespace Level
         }
     }
 }
-

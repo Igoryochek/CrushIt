@@ -1,5 +1,5 @@
-using Crystals;
 using System.Collections;
+using Crystals;
 using UnityEngine;
 
 namespace GeneralHealth
@@ -34,7 +34,8 @@ namespace GeneralHealth
 
         private IEnumerator Dying()
         {
-            yield return new WaitForSeconds(_delay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             gameObject.SetActive(false);
         }
     }

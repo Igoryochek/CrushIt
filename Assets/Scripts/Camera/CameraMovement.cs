@@ -1,11 +1,12 @@
 using System.Collections;
+using PlayerMain;
 using UnityEngine;
 
 namespace CameraController
 {
     public class CameraMovement : MonoBehaviour
     {
-        [SerializeField] private Player.Player _player;
+        [SerializeField] private Player _player;
         [SerializeField] private float _zOffset;
         [SerializeField] private float _yMaxOffset;
         [SerializeField] private float _speed;
@@ -19,8 +20,10 @@ namespace CameraController
         {
             if (_isViewing == false)
             {
-                transform.position =
-                    new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z - _zOffset);
+                transform.position = new Vector3(
+                    _player.transform.position.x,
+                    transform.position.y,
+                    _player.transform.position.z - _zOffset);
             }
         }
 
@@ -36,8 +39,11 @@ namespace CameraController
         {
             _isViewing = true;
             _startPosition = transform.position;
-            Vector3 newPosition =
-                new Vector3(transform.position.x, _startPosition.y + _yMaxOffset, transform.position.z - _zOffset);
+            Vector3 newPosition = new Vector3(
+                transform.position.x,
+                _startPosition.y + _yMaxOffset,
+                transform.position.z - _zOffset);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
 
             while (transform.position.y != newPosition.y)
             {
@@ -45,13 +51,12 @@ namespace CameraController
                 yield return null;
             }
 
-            yield return new WaitForSeconds(_delay);
+            yield return waitForSeconds;
 
             while (transform.position.y != _startPosition.y)
             {
                 transform.position = Vector3.MoveTowards(transform.position, _startPosition, _speed * Time.deltaTime);
                 yield return null;
-
             }
 
             _viewing = null;
@@ -59,5 +64,3 @@ namespace CameraController
         }
     }
 }
-
-

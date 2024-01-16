@@ -8,7 +8,7 @@ namespace Environment
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player.Player player))
+            if (other.TryGetComponent(out PlayerMain.Player player))
             {
                 SetSwitchActive();
             }

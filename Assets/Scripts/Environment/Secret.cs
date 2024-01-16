@@ -21,7 +21,7 @@ namespace Environment
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (gameObject.TryGetComponent(out Secret secret) && collision.gameObject.TryGetComponent(out Player.Player player))
+            if (gameObject.TryGetComponent(out Secret secret) && collision.gameObject.TryGetComponent(out PlayerMain.Player player))
             {
                 _hintPanel.gameObject.SetActive(true);
                 _audioSource.Play();

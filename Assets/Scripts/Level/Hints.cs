@@ -28,13 +28,13 @@ namespace Level
 
         private IEnumerator ShowingHints()
         {
-            yield return new WaitForSeconds(_showingDelay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_showingDelay);
+            yield return waitForSeconds;
             _crystalHint.SetActive(true);
-            yield return new WaitForSeconds(_showingDelay);
+            yield return waitForSeconds;
             _shipHint.SetActive(true);
-            yield return new WaitForSeconds(_showingDelay);
+            yield return waitForSeconds;
             _enemyHint.SetActive(true);
         }
     }
 }
-

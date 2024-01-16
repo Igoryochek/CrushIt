@@ -5680,7 +5680,7 @@ MonoBehaviour:
   _zOffset: 11
   _yMaxOffset: 50
   _speed: 20
-  _viewAllDelay: 2
+  _delay: 0
 --- !u!4 &407145075 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4666323329268654, guid: 018e38b65bc9fb048a9c4271cdad70c2, type: 3}
@@ -6476,6 +6476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c2d979b3bbac64f8787d9845783c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _showingTime: 0
 --- !u!1 &498003233
 GameObject:
   m_ObjectHideFlags: 0
@@ -11199,9 +11200,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84676ac8dc86d24f9b957d4c2e75d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootPoint: {fileID: 2012254227}
-  _particle: {fileID: 1865953749}
-  Bullet: {fileID: -3410868187425867692, guid: cce97faba7ece5049bcef4b37c91a0b3, type: 3}
+  BulletPrefab: {fileID: 0}
+  Particle: {fileID: 0}
+  AudioSource: {fileID: 0}
+  SavingName: 
 --- !u!1 &947285897
 GameObject:
   m_ObjectHideFlags: 0
@@ -18938,6 +18940,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45fe3ec28eac2064d985117cf812ef9d, type: 3}
+--- !u!1 &1652944720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1652944722}
+  - component: {fileID: 1652944721}
+  m_Layer: 0
+  m_Name: GamePauser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1652944721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652944720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58aaffd760241df47a5d9fb3af5a38f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioManager: {fileID: 0}
+  _ads: {fileID: 0}
+--- !u!4 &1652944722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652944720}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1663152887
 GameObject:
   m_ObjectHideFlags: 0
@@ -19858,6 +19906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _secretSwitch: {fileID: 475270923}
   _hintPanel: {fileID: 492257293}
+  _audioSource: {fileID: 0}
 --- !u!4 &1761246506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4996622922583942, guid: bb8b831afcc06c64f9df984b2ccb8642, type: 3}
@@ -20853,11 +20902,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
---- !u!198 &1865953749 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1172064804468879791, guid: dcd988f4407a9734bac10aa920373885, type: 3}
-  m_PrefabInstance: {fileID: 1172064804049961082}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1874442539 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1619558185565566, guid: 1d9cc67243350f643b8c562ed0503c49, type: 3}
@@ -22126,11 +22170,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4077012820900926, guid: 7ad57e94574375240b181f8584be81c2, type: 3}
   m_PrefabInstance: {fileID: 2010997477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2012254227 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 862949786868030022, guid: 9c1fb64356d2df34fb92f3601dbfc94d, type: 3}
-  m_PrefabInstance: {fileID: 8150410299208362790}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2018132374
 PrefabInstance:
@@ -24355,8 +24394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8159065d47c062f409442374b2123fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1497883432}
   _text: {fileID: 6806913257795639955}
+  _player: {fileID: 1497883432}
 --- !u!1001 &8150410299208362790
 PrefabInstance:
   m_ObjectHideFlags: 0

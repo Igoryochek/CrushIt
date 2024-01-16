@@ -60,10 +60,15 @@ namespace UI
                 }
 
                 _counter.RemoveCrystals(_price);
-                _descriptionText.text = PlusSign + _upgradeValue.ToString() + SpaceSign + _startDescription +
+                string newDescriptionText =
+                    PlusSign +
+                    _upgradeValue.ToString() +
+                    SpaceSign + _startDescription +
                     PlayerPrefs.GetInt(_savingName).ToString();
+                _descriptionText.text = newDescriptionText;
                 _price += (int)((float)_price * Offset);
-                _crystalsPriceText.text = _startPriceText + _price.ToString();
+                string newCrystalPriceText = _startPriceText + _price.ToString();
+                _crystalsPriceText.text = newCrystalPriceText;
                 PlayerPrefs.SetInt(_savingPrice, _price);
             }
         }
@@ -77,4 +82,3 @@ namespace UI
         }
     }
 }
-

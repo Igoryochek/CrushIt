@@ -1,10 +1,10 @@
-using Level;
 using System;
+using Level;
 using UnityEngine;
 
 namespace GeneralHealth
 {
-    [RequireComponent(typeof(AnimatorController))]
+    [RequireComponent(typeof(AnimatorStateChanger))]
 
     public abstract class Health : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace GeneralHealth
 
         protected bool IsDeadCondition = false;
         protected int CurrentHealth;
-        protected AnimatorController AnimatorController;
+        protected AnimatorStateChanger AnimatorController;
 
         public event Action<float> HealthChanged;
 
@@ -40,7 +40,7 @@ namespace GeneralHealth
             }
 
             SetCurrentHealth(MaxHealth);
-            AnimatorController = GetComponent<AnimatorController>();
+            AnimatorController = GetComponent<AnimatorStateChanger>();
         }
 
         public void TakeDamage(int count)
@@ -84,5 +84,3 @@ namespace GeneralHealth
         }
     }
 }
-
-

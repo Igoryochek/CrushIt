@@ -1,6 +1,6 @@
-using Environment;
-using Player;
 using System.Collections;
+using Environment;
+using PlayerMain;
 using UnityEngine;
 
 namespace Movement
@@ -66,14 +66,14 @@ namespace Movement
             }
 
             AnimatorController.Run();
-            Rigidbody.velocity = new Vector3(CurrentDirection.x * MovingSpeed, Rigidbody.velocity.y,
-                CurrentDirection.z * MovingSpeed);
+            Rigidbody.velocity = new Vector3(CurrentDirection.x * MovingSpeed, Rigidbody.velocity.y, CurrentDirection.z * MovingSpeed);
 
             if (Shooter.IsShooting == false)
             {
-                Vector3 newDirection = 
-                    new Vector3(transform.position.x + CurrentDirection.x,
-                    transform.position.y, transform.position.z + CurrentDirection.z);
+                Vector3 newDirection = new Vector3(
+                    transform.position.x + CurrentDirection.x,
+                    transform.position.y,
+                    transform.position.z + CurrentDirection.z);
                 Rotate(newDirection);
                 return;
             }
@@ -105,12 +105,13 @@ namespace Movement
 
         private IEnumerator PushingButton(Vector3 direction)
         {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(PushingDelay);
             Rigidbody.velocity = Vector3.zero;
             Speed = ZeroSpeed;
             _isPushingButton = true;
             Vector3 newDirection = new Vector3(direction.x, transform.position.y, direction.z);
             transform.LookAt(newDirection);
-            yield return new WaitForSeconds(PushingDelay);
+            yield return waitForSeconds;
             _isPushingButton = false;
             Speed = StartSpeed;
         }

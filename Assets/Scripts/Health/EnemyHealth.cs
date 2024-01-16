@@ -1,6 +1,6 @@
+using System.Collections;
 using Level;
 using Movement;
-using System.Collections;
 using UnityEngine;
 
 namespace GeneralHealth
@@ -19,15 +19,15 @@ namespace GeneralHealth
         public override void Die()
         {
             AnimatorController.Die();
-            TryGiveBonus();
+            GiveBonus();
         }
 
-        private void TryGiveBonus()
+        private void GiveBonus()
         {
-            StartCoroutine(TryingGiveBonus());
+            StartCoroutine(GivingBonus());
         }
 
-        private IEnumerator TryingGiveBonus()
+        private IEnumerator GivingBonus()
         {
             yield return new WaitForSeconds(_delay);
             Instantiate(_particlePrefab, transform.position, Quaternion.identity);
@@ -37,7 +37,9 @@ namespace GeneralHealth
             {
                 if (_aidKitPooler.TryGetObject(out GameObject aidKit))
                 {
-                    aidKit.transform.position = new Vector3(transform.position.x, transform.position.y + transform.position.y,
+                    aidKit.transform.position = new Vector3(
+                        transform.position.x,
+                        transform.position.y + transform.position.y,
                         transform.position.z);
                     aidKit.transform.rotation = aidKit.transform.rotation;
                     aidKit.SetActive(true);

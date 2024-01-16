@@ -9,6 +9,7 @@ namespace UI
         [SerializeField] private int _planetNumber;
 
         public int Price => _price;
+
         public int PlanetNumber => _planetNumber;
 
         private void Start()

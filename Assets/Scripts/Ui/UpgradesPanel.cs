@@ -15,7 +15,8 @@ namespace UI
 
         private IEnumerator Renewing()
         {
-            yield return new WaitForSeconds(_delay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
+            yield return waitForSeconds;
 
             foreach (var button in _upgradeButtons)
             {

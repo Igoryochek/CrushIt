@@ -1,5 +1,5 @@
-using GeneralHealth;
 using System.Collections;
+using GeneralHealth;
 using UnityEngine;
 
 namespace Environment
@@ -38,8 +38,9 @@ namespace Environment
 
         private IEnumerator Disappearing()
         {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
             _audioSource.Play();
-            yield return new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             gameObject.SetActive(false);
         }
     }

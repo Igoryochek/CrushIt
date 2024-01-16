@@ -14,7 +14,8 @@ namespace Shooting
 
         private IEnumerator Living()
         {
-            yield return new WaitForSeconds(_delay);
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
+            yield return waitForSeconds;
             Destroy(gameObject);
         }
     }

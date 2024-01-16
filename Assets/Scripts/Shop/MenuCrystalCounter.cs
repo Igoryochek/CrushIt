@@ -11,27 +11,28 @@ namespace Counter
         private const string LetterK = "K";
         private const string Dot = ".";
 
-        protected bool _starting = true;
-        protected int _earnedCrystals;
+        protected bool Starting = true;
+        protected int EarnedCrystals;
 
         [SerializeField] private TextMeshProUGUI _text;
 
         private int _crystalsCount;
 
         public int CrystalsCount => _crystalsCount;
-        public int EarnedCrystals => _earnedCrystals;
+
+        public int CurrentEarnedCrystals => EarnedCrystals;
 
         private void Start()
         {
             if (PlayerPrefs.HasKey(PlayerPrefsKeys.CrystalsCount))
             {
-                AddCrystals(PlayerPrefs.GetInt(PlayerPrefsKeys.CrystalsCount));
+                OnCrystalAdded(PlayerPrefs.GetInt(PlayerPrefsKeys.CrystalsCount));
             }
 
-            _starting = false;
+            Starting = false;
         }
 
-        public virtual void AddCrystals(int count)
+        public virtual void OnCrystalAdded(int count)
         {
             _crystalsCount += count;
             ShowCount();
@@ -39,13 +40,13 @@ namespace Counter
 
         public void AddCrystalsForAd(int count)
         {
-            AddCrystals(count);
+            OnCrystalAdded(count);
             PlayerPrefs.SetInt(PlayerPrefsKeys.CrystalsCount, _crystalsCount);
         }
 
         public void MultyplyEarnedCrystals()
         {
-            AddCrystals(_earnedCrystals);
+            OnCrystalAdded(CurrentEarnedCrystals);
         }
 
         public void RemoveCrystals(int count)

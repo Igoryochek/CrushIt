@@ -7,24 +7,14 @@ namespace UI
     {
         private const float FullSoundValue = 1f;
         private const float ZeroSoundValue = 0f;
-        private const int LeftMouseButtonNumber = 0;
 
         [SerializeField] private float _showingTime;
 
         private Coroutine _showing;
-        private bool _isMobile = false;
 
         private void OnEnable()
         {
             Show();
-        }
-
-        private void Start()
-        {
-            if (Application.isMobilePlatform)
-            {
-                _isMobile = true;
-            }
         }
 
         private void OnMouseDown()
@@ -49,8 +39,9 @@ namespace UI
 
         private IEnumerator Showing()
         {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(_showingTime);
             Time.timeScale = ZeroSoundValue;
-            yield return new WaitForSecondsRealtime(_showingTime);
+            yield return waitForSeconds;
             Time.timeScale = FullSoundValue;
             gameObject.SetActive(false);
         }
