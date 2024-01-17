@@ -17,12 +17,7 @@ namespace Movement
 
             if (Shooter.IsShooting)
             {
-                _target = Shooter.Target;
-                Vector3 newPosition = new Vector3(
-                    transform.position.x + (_target.transform.position.x - transform.position.x),
-                    transform.position.y,
-                    transform.position.z + (_target.transform.position.z - transform.position.z));
-                TurnToTarget(newPosition);
+                MoveToTarget(_target);
             }
         }
     }

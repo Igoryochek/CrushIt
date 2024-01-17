@@ -2,6 +2,7 @@ using GeneralHealth;
 using Level;
 using Shooting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Movement
 {
@@ -44,7 +45,24 @@ namespace Movement
 
         public abstract void Move();
 
-        public void TurnToTarget(Vector3 newPosition)
+        public void MoveToTarget(Health target)
+        {
+            target = Shooter.Target;
+            Vector3 newPosition = new Vector3(
+                transform.position.x + (target.transform.position.x - transform.position.x),
+            transform.position.y,
+                transform.position.z + (target.transform.position.z - transform.position.z));
+            TurnToTarget(newPosition);
+        }
+
+        public void Rotate(Vector3 destination)
+        {
+            Vector3 direction = new Vector3(destination.x, transform.position.y, destination.z) - transform.position;
+            Quaternion newDirection = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, newDirection, RotationSpeed * Time.deltaTime);
+        }
+
+        private void TurnToTarget(Vector3 newPosition)
         {
             if (Vector3.Distance(transform.position, newPosition) <= StopMovingDistance)
             {
@@ -55,13 +73,6 @@ namespace Movement
             AnimatorController.Run();
             transform.position = Vector3.MoveTowards(transform.position, newPosition, MovingSpeed * Time.deltaTime);
             Rotate(newPosition);
-        }
-
-        public void Rotate(Vector3 destination)
-        {
-            Vector3 direction = new Vector3(destination.x, transform.position.y, destination.z) - transform.position;
-            Quaternion newDirection = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, newDirection, RotationSpeed * Time.deltaTime);
         }
     }
 }
